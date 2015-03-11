@@ -15,6 +15,9 @@ int main(int argc, char *argv[])
 	//Set a to a small number in hexadecimal
 	mpz_init_set_str(b, "A", 16);
 
+	//Set you have to init c to 0 before using it
+	mpz_init(c);
+
 	//c=a+b
 	mpz_add(c, a, b);
 
