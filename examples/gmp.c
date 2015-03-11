@@ -1,3 +1,7 @@
+/**
+ * @brief This is a simple example with the gmp library that will sum to big numbers
+ */
+
 #include <stdio.h>
 #include <gmp.h>
  
