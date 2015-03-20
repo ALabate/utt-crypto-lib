@@ -1,3 +1,6 @@
+#ifndef CRYPTOLIB_H
+#define CRYPTOLIB_H
+
 #include <gmp.h>
 
 /**
@@ -23,3 +26,5 @@ void crypto_pow_classic(mpz_t dest, mpz_t a, unsigned long p);
  * @param p - Number of times a will be multiplicated
  */
 void crypto_pow_recur(mpz_t dest, mpz_t a, unsigned long p);
+
+#endif
