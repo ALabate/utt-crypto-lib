@@ -46,19 +46,9 @@ void crypto_pow_recur(mpz_t dest, mpz_t a, unsigned long p)
 
 void crypto_pow_classic(mpz_t dest, mpz_t a, unsigned long p)
 {
-	unsigned long i;
-
-	//We cannot deal with negatif power
-	if(p < 0)
-		return;
-	if(p == 1)
-		mpz_set(dest, a);
-	else
+	mpz_init_set_ui(dest, 1);
+	for ( ; p > 0 ; p--)
 	{
-		mpz_mul(dest, a, a);
-		for (i = 2; i < p; ++i)
-		{
-			mpz_mul(dest, dest, a);
-		}
+		mpz_mul(dest, dest, a);
 	}
 }
