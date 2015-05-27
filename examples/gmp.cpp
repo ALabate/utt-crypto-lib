@@ -3,13 +3,13 @@
  */
 
 #include <stdio.h>
-#include <gmpxx.h>
 #include <iostream>
+#include "../mpz2_class.h"
  
 int main(int argc, char *argv[])
 {
 	//Init the three big numbers (integer) that we will manipulate
-	mpz_class a, b, c;
+	mpz2_class a, b, c;
 
 	//Set a to a big number in base 10
 	a = "148189247128974289127484021983013239823";

@@ -6,9 +6,9 @@
 #include <gmp.h>
 #include <gmpxx.h>
 #include <iostream>
-#include "../cryptoLib.hpp"
+#include "../cryptoLib.h"
 
-mpz_class checksum(mpz_class input)
+mpz2_class checksum(mpz2_class input)
 {
 	return (input%0xffffffff);
 }
@@ -16,7 +16,7 @@ mpz_class checksum(mpz_class input)
 int main(int argc, char *argv[])
 {
 	//Init the two big numbers (integer) that we will manipulate
-	mpz_class a, res;
+	mpz2_class a, res;
 	unsigned long power;
 
 	//Time init

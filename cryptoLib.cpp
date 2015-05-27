@@ -1,7 +1,7 @@
-#include "cryptoLib.hpp"
+#include "cryptoLib.h"
 
 
-mpz_class crypto_pow(mpz_class a, unsigned long p)
+mpz2_class crypto_pow(mpz2_class a, unsigned long p)
 {
 
 	if(p <= 1) //If finished
@@ -18,9 +18,10 @@ mpz_class crypto_pow(mpz_class a, unsigned long p)
 	}
 
 }
-mpz_class crypto_pow_classic(mpz_class a, unsigned long p)
+
+mpz2_class crypto_pow_classic(mpz2_class a, unsigned long p)
 {
-	mpz_class rtn;
+	mpz2_class rtn;
 	rtn = 1;
 	// Loop p times
 	for ( ; p > 0 ; p--)
