@@ -143,7 +143,15 @@ int main(int argc, char *argv[])
 	f = d.pow(bb);
 	g = d.pow(cc);
 	h = d.pow(2);
+	std::cout << "Pow : " << std::endl;
 	std::cout << "   d:" << d.pow(2) << ", e:" << e << ", f:" << f << ", g:" << g << ", h:" << h << std::endl;
+
+	//Pow mod
+	d = 2;
+	e = 3;
+	f = d.powmod(d,e);
+	std::cout << "Pow mod : " << std::endl;
+	std::cout << "   d.powmod(2,3)=" << d.powmod(2,3) << ", d.powmod(d,e)=" << d.powmod(d,e) << std::endl;
 
 	return 0;
 }

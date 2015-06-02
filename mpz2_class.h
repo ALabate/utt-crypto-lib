@@ -34,20 +34,16 @@ class mpz2_class : public mpz_class
             mpz2_class& operator=(const TYPE a); \
             /* Multiplication */ \
             mpz2_class operator*(const TYPE a); \
-            mpz2_class& operator*=(const TYPE a); \
             /* Addition */ \
             mpz2_class operator+(const TYPE a); \
-            mpz2_class& operator+=(const TYPE a); \
             /* Division */ \
             mpz2_class operator/(const TYPE a); \
-            mpz2_class& operator/=(const TYPE a); \
             /* Soustraction */ \
             mpz2_class operator-(const TYPE a); \
-            mpz2_class& operator-=(const TYPE a); \
             /* Modulo */ \
             mpz2_class operator%(const TYPE a); \
-            mpz2_class& operator%=(const TYPE a); \
             /* Pow */ \
+            mpz2_class powmod(const TYPE a, const mpz2_class mod); \
 
 
         #define MPZ2_CLASS_STD_H(TYPE) \
@@ -86,7 +82,6 @@ class mpz2_class : public mpz_class
         void clear();
         mpz2_class& swap(mpz2_class& b);
         mpz2_class abs();
-        mpz2_class powmod(mpz2_class pow, mpz2_class mod);
 
        
 };

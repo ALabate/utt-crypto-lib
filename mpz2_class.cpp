@@ -25,19 +25,20 @@ mpz2_class::mpz2_class(const std::string& a, int base) : mpz_class(a, base) {}
 	mpz2_class& mpz2_class::operator=(const TYPE a) { mpz_class::operator=(A); return *this; } \
 	/* Multiplication */ \
 	mpz2_class mpz2_class::operator*(const TYPE a) { return (mpz2_class)(((mpz_class)*this) * A); } \
-	mpz2_class& mpz2_class::operator*=(const TYPE a) { mpz_class::operator*=(A); return *this; } \
 	/* Addition */ \
 	mpz2_class mpz2_class::operator+(const TYPE a) { return (mpz2_class)(((mpz_class)*this) + A); } \
-	mpz2_class& mpz2_class::operator+=(const TYPE a) { mpz_class::operator+=(A); return *this; } \
 	/* Division */ \
 	mpz2_class mpz2_class::operator/(const TYPE a) { return (mpz2_class)(((mpz_class)*this) / A); } \
-	mpz2_class& mpz2_class::operator/=(const TYPE a) { mpz_class::operator/=(A); return *this; } \
 	/* Soustraction */ \
 	mpz2_class mpz2_class::operator-(const TYPE a) { return (mpz2_class)(((mpz_class)*this) - A); } \
-	mpz2_class& mpz2_class::operator-=(const TYPE a) { mpz_class::operator-=(A); return *this; } \
 	/* Modulo */ \
 	mpz2_class mpz2_class::operator%(const TYPE a) { return (mpz2_class)(((mpz_class)*this) % A); } \
-	mpz2_class& mpz2_class::operator%=(const TYPE a) { mpz_class::operator%=(A); return *this; }
+	/* Pow Mod */ \
+	mpz2_class mpz2_class::powmod(const TYPE a, const mpz2_class mod) { \
+		mpz2_class ret; \
+		mpz_powm(ret.get_mpz_t(), (*this).get_mpz_t(), mpz2_class(a).get_mpz_t(), mod.get_mpz_t()); \
+		return ret; \
+	} \
 
 
 
@@ -117,12 +118,5 @@ mpz2_class& mpz2_class::swap(mpz2_class& b) {
 mpz2_class mpz2_class::abs() {
 	mpz2_class a;
 	mpz_abs(a.get_mpz_t(), (*this).get_mpz_t());
-	return a;
-}
-
-mpz2_class mpz2_class::powmod(mpz2_class pow, mpz2_class mod)
-{
-	mpz2_class a;
-	mpz_powm(a.get_mpz_t(), (*this).get_mpz_t(), pow.get_mpz_t(), mod.get_mpz_t());
 	return a;
 }
