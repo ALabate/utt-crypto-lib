@@ -153,5 +153,13 @@ int main(int argc, char *argv[])
 	std::cout << "Pow mod : " << std::endl;
 	std::cout << "   d.powmod(2,3)=" << d.powmod(2,3) << ", d.powmod(d,e)=" << d.powmod(d,e) << std::endl;
 
+	//Random
+	mpz2_class ran, ran2, ran3;
+	ran.setRandom(10,12);
+	ran2.setRandom(1,1000000);
+	ran3.setRandom(1,1000000);
+	std::cout << "Random : " << std::endl;
+	std::cout << "   " << ran << ", " << ran2 << ", " << ran3 << std::endl;
+
 	return 0;
 }

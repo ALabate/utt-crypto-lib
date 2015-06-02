@@ -1,6 +1,7 @@
 #ifndef MPZ2_CLASS_H
 #define MPZ2_CLASS_H
 
+#include <ctime>
 #include <gmp.h>
 #include <gmpxx.h>
 
@@ -44,6 +45,9 @@ class mpz2_class : public mpz_class
             mpz2_class operator%(const TYPE a); \
             /* Pow */ \
             mpz2_class powmod(const TYPE a, const mpz2_class mod); \
+            /* Rand */ \
+            mpz2_class& setRandom(const TYPE a, const TYPE b);
+
 
 
         #define MPZ2_CLASS_STD_H(TYPE) \
@@ -82,6 +86,10 @@ class mpz2_class : public mpz_class
         void clear();
         mpz2_class& swap(mpz2_class& b);
         mpz2_class abs();
+
+    private:
+        static gmp_randstate_t randState;
+        static bool randInit;
 
        
 };
