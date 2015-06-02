@@ -9,7 +9,7 @@
  * @param p - Number of times a will be multiplicated to itself
  * @return The integer result
  */
-mpz2_class crypto_pow(mpz2_class a, unsigned long p);
+// mpz2_class crypto_pow(mpz2_class a, unsigned long p);
 
 /**
  * @brief This function calculate the power with the classic algorithme used by humans
@@ -17,7 +17,7 @@ mpz2_class crypto_pow(mpz2_class a, unsigned long p);
  * @param p - Number of times a will be multiplicated to itself
  * @return The integer result
  */
-mpz2_class crypto_pow_classic(mpz2_class a, unsigned long p);
+// mpz2_class crypto_pow_classic(mpz2_class a, unsigned long p);
 
 
 #endif

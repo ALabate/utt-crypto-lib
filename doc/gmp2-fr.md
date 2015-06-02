@@ -59,3 +59,19 @@ b = "0x1C";
 b = a;
 ```
 
+### Addition, Soustraction, Multiplication, Division, Modulo
+Toutes ces opérations fonctionnent avec les types suivans et retournent des entiers.
+```cpp
+const short
+unsigned short
+int
+unsigned int
+long
+unsigned long
+float
+double
+mpz_class&
+mpz2_class&
+char*
+std::string
+```
