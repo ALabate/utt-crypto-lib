@@ -1,7 +1,4 @@
 #include "cryptoLib.h"
-#include "iostream"
-#include "cmath"
-
 
 // mpz2_class crypto_pow(mpz2_class a, unsigned long p)
 // {
@@ -39,10 +36,8 @@
 bool crypto_primality_test(mpz2_class n, int k)
 {
 	int compteur=0;
-	mpz2_class a, s=0, d, x, m=n-2;
+	mpz2_class a, s=0, d, x;
 	bool do_small_loop=true;
-	gmp_randstate_t state;
-	gmp_randinit_default (state);
 
 	if (k<1)
 	{
@@ -71,7 +66,7 @@ bool crypto_primality_test(mpz2_class n, int k)
 		We choose another a and repeat the same test.*/
 	for (int i = 0; i < k; ++i)
 	{
-		mpz_urandomm (a.get_mpz_t(), state, m.get_mpz_t());
+		a.setRandom(2, n-1);
 		x=a.powmod(d,n);
 		do_small_loop=true;
 		

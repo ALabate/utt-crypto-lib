@@ -1,5 +1,8 @@
 #include "mpz2_class.h"
 
+gmp_randstate_t mpz2_class::randState = {};
+bool mpz2_class::randInit = false;
+
 //Init and Set
 mpz2_class::mpz2_class() : mpz_class() {}
 mpz2_class::mpz2_class(const short a) : mpz_class(a) {}
@@ -38,6 +41,24 @@ mpz2_class::mpz2_class(const std::string& a, int base) : mpz_class(a, base) {}
 		mpz2_class ret; \
 		mpz_powm(ret.get_mpz_t(), (*this).get_mpz_t(), mpz2_class(a).get_mpz_t(), mod.get_mpz_t()); \
 		return ret; \
+	} \
+	/* Random */ \
+	mpz2_class& mpz2_class::setRandom(const TYPE a, const TYPE b) { \
+		mpz2_class a2 = mpz2_class(a); \
+		mpz2_class b2 = mpz2_class(b); \
+		if(mpz2_class::randInit == false) \
+		{ \
+			gmp_randinit_mt (mpz2_class::randState); \
+			mpz2_class::randInit = true; \
+			gmp_randseed_ui(mpz2_class::randState, (unsigned int)std::time(NULL)); \
+		} \
+		if(a2 > b2) \
+		{ \
+			a2.swap(b2); \
+		} \
+		mpz_urandomm ((*this).get_mpz_t(), mpz2_class::randState, (b2 - a2 + 1).get_mpz_t()); \
+		(*this) += a2; \
+		return *this; \
 	} \
 
 
