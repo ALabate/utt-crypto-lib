@@ -98,3 +98,18 @@ bool crypto_primality_test(mpz2_class n, int k)
 	
 }
 
+mpz2_class diffie_hellmann_etape_1(mpz2_class a, mpz2_class p, mpz2_class g)
+{
+	// We compute g^a mod p.
+	mpz2_class A;
+	A=g.powmod(a,p);
+	return A;
+}
+
+mpz2_class diffie_hellmann_etape_2(mpz2_class a, mpz2_class p, mpz2_class B)
+{
+	// We compute B^a mod p.
+	mpz2_class S;
+	S=B.powmod(a,p);
+	return S;
+}
