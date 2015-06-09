@@ -1,5 +1,4 @@
 #include "cryptoLib.h"
-
 // mpz2_class crypto_pow(mpz2_class a, unsigned long p)
 // {
 
@@ -52,7 +51,6 @@ bool crypto_primality_test(mpz2_class n, int k)
 	{
 		return false;
 	}
-	
 	/* s is the number of times that 2 divide n-1.
 		so we will have 2^s*d=n-1 */
 	d = n-1;
@@ -72,20 +70,22 @@ bool crypto_primality_test(mpz2_class n, int k)
 		
 		if (x!=1 && x!=n-1)
 		{
-			for (int j = 0; j < s; ++j)
+			for (int j = 1; j < s; ++j)
 			{
-				x=(x*x)%n;
+				x=x.powmod(2,n);
 				if (x==1)
 				{
 					return false;
 				}
-				if (x==n-1)
+				else if (x==n-1)
 				{
 					break;
 				}
+			}
+			if(x != n-1)
+			{
 				return false;
 			}
-			
 		}
 		
 	}
