@@ -141,3 +141,12 @@ mpz2_class mpz2_class::abs() {
 	mpz_abs(a.get_mpz_t(), (*this).get_mpz_t());
 	return a;
 }
+mpz2_class mpz2_class::invertmod(mpz2_class mod) {
+	mpz2_class a;
+	mpz_invert(a.get_mpz_t(), (*this).get_mpz_t(), mod.get_mpz_t());
+	return a;
+}
+bool mpz2_class::isPrime(unsigned long testCount) {
+	mpz2_class a;
+	return (mpz_probab_prime_p((*this).get_mpz_t(), testCount) != 0);
+}

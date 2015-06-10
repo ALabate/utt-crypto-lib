@@ -108,3 +108,37 @@ mpz2_class diffie_hellmann_etape_2(mpz2_class a, mpz2_class p, mpz2_class B)
 	S=B.powmod(a,p);
 	return S;
 }
+
+void rsa_keyGenerator(mpz2_class &n, mpz2_class &d, mpz2_class &e, unsigned long bitlength)
+{
+	//Find prime numbers
+	mpz2_class p, q;
+	mpz2_class randStart, randEnd;
+
+	if(e == 0) {
+		e = 65537;
+	}
+
+	randStart = mpz2_class(1) << (bitlength - 1);
+	randEnd = (mpz2_class(1) << bitlength) - 1;
+	do {
+		p.setRandom(randStart, randEnd);
+	} while((p%2 == 0) || !p.isPrime(25));
+
+	do {
+		q.setRandom(randStart, randEnd);
+	} while((q%2 == 0) || (q == p) || !q.isPrime(25));
+
+	d = e.invertmod((p-1)*(q-1));
+	n = p*q;
+}
+
+mpz2_class rsa_encrypt(mpz2_class message, mpz2_class e, mpz2_class n)
+{
+	return message.powmod(e, n);
+}
+
+mpz2_class rsa_decrypt(mpz2_class encryptedMessage, mpz2_class d, mpz2_class n)
+{
+	return encryptedMessage.powmod(d, n);
+}

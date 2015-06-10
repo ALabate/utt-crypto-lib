@@ -86,6 +86,8 @@ class mpz2_class : public mpz_class
         void clear();
         mpz2_class& swap(mpz2_class& b);
         mpz2_class abs();
+        mpz2_class invertmod(mpz2_class mod);
+        bool isPrime(unsigned long testCount);
 
     private:
         static gmp_randstate_t randState;
