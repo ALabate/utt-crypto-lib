@@ -32,16 +32,45 @@ bool crypto_primality_test(mpz2_class n, int k);
  * @param a - The secret prime number of the user
  * @param p - A prime number chosen to work in Z/pZ
  * @param g - It is a primitive root modulo p
- * @return The encode secret number of the user */
-mpz2_class diffie_hellmann_etape_1(mpz2_class a, mpz2_class p, mpz2_class g);
+ * @return The encrypted secret number of the user */
+mpz2_class diffieHellmann_step1(mpz2_class a, mpz2_class p = 0, mpz2_class g = 0);
 
 /**
  * @brief This function calculate the second step of the Diffie-Hellmann key exchange (the common key)
  * @param a - The secret prime number of the user
  * @param p - A prime number chosen to work in Z/pZ
- * @param B - The encode secret number from the other user
+ * @param B - The public key of the other user
  * @return The common key of the two users */
 
-mpz2_class diffie_hellmann_etape_2(mpz2_class a, mpz2_class p, mpz2_class B);
+mpz2_class diffieHellmann_step2(mpz2_class a, mpz2_class B, mpz2_class p = 0);
+
+/**
+ * @brief This function calculate the private key of the user using the public key "p" and the generator "g"
+ * @param a - The secret prime number of the user
+ * @param p - A prime number chosen to work in Z/pZ
+ * @param g - It is a primitive root modulo p
+ * @return The encrypted secret number of the user */
+mpz2_class elGamal_keyGenerator(mpz2_class a, mpz2_class p = 0, mpz2_class g = 0);
+
+
+/**
+ * @brief This function does theencryption of a message using el Gamal algorithm.
+ * @param B - Reference to the output public key of the user
+ * @param b - The secret prime number of the user
+ * @param A - The public key of of the other user
+ * @param p - A prime number chosen to work in Z/pZ
+ * @param g - It is a primitive root modulo p
+ * @return The encrypted message */
+mpz2_class elGamal_encryption(mpz2_class& B,mpz2_class b, mpz2_class A, mpz2_class m, mpz2_class p = 0, mpz2_class g = 0);
+
+
+/**
+ * @brief This function does theencryption of a message using el Gamal algorithm.
+ * @param B - The output public key of the other user
+ * @param a - The secret prime number of the user
+ * @param encryptedMessage - The encrypted message
+ * @return The decrypted message */
+mpz2_class elGamal_decryption(mpz2_class& B, mpz2_class a, mpz2_class encryptedMessage);
+
 
 #endif
