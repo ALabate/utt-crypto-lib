@@ -138,11 +138,11 @@ void rsa_keyGenerator(mpz2_class &n, mpz2_class &d, mpz2_class &e, unsigned long
 	randEnd = (mpz2_class(1) << bitlength) - 1;
 	do {
 		p.setRandom(randStart, randEnd);
-	} while((p%2 == 0) || !p.isPrime(25));
+	} while((p%2 == 0) || !p.probab_prime(25));
 
 	do {
 		q.setRandom(randStart, randEnd);
-	} while((q%2 == 0) || (q == p) || !q.isPrime(25));
+	} while((q%2 == 0) || (q == p) || !q.probab_prime(25));
 
 	d = e.invertmod((p-1)*(q-1));
 	n = p*q;

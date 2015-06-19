@@ -12,6 +12,8 @@
 class mpz2_class : public mpz_class
 {
     public:
+
+        //Constructors
         mpz2_class();
         mpz2_class(const short a);
         mpz2_class(const unsigned short a);
@@ -30,7 +32,39 @@ class mpz2_class : public mpz_class
         mpz2_class(const std::string& s, int base = 0);
 
 
-        //Define this macro to not repeat functions for each type
+        void clear();
+        mpz2_class& swap(mpz2_class& b);
+        mpz2_class abs();
+
+        mpz2_class divisible(const mpz2_class a);
+        mpz2_class congruent(const mpz2_class a, const mpz2_class b);
+
+        mpz2_class pow(const unsigned long a);
+        mpz2_class powmod(const mpz2_class a, const mpz2_class mod);
+
+        mpz2_class root(const unsigned long pow);
+        mpz2_class root(const unsigned long pow, bool& exact);
+        mpz2_class root(const unsigned long pow, mpz2_class& remainder);
+        mpz2_class sqrt();
+        mpz2_class sqrt(mpz2_class& remainder);
+        int perfect_power();
+        int perfect_square();
+
+        int probab_prime(unsigned long testCount);
+        mpz2_class nextprime();
+        mpz2_class gcd(mpz2_class b);
+        mpz2_class gcd(mpz2_class b, mpz2_class& s, mpz2_class& t);
+        mpz2_class lcm(mpz2_class b);
+        mpz2_class invertmod(mpz2_class mod);
+
+        size_t out_str (FILE *stream, int base = 16);
+        size_t inp_str (FILE *stream, int base = 16);
+        size_t out_raw (FILE *stream);
+        size_t inp_raw (FILE *stream);
+
+        mpz2_class& setRandom(const mpz2_class a, const mpz2_class b);
+
+        //Redefine operators
         #define MPZ2_CLASS_INHERIT_H(TYPE) \
             mpz2_class& operator=(const TYPE a); \
             /* Multiplication */ \
@@ -42,20 +76,9 @@ class mpz2_class : public mpz_class
             /* Soustraction */ \
             mpz2_class operator-(const TYPE a); \
             /* Modulo */ \
-            mpz2_class operator%(const TYPE a); \
-            /* Pow */ \
-            mpz2_class powmod(const TYPE a, const mpz2_class mod); \
-            /* Rand */ \
-            mpz2_class& setRandom(const TYPE a, const TYPE b);
-
-
-
-        #define MPZ2_CLASS_STD_H(TYPE) \
-            mpz2_class pow(const TYPE a);
-
-
-
-        //Execute macro
+            mpz2_class operator%(const TYPE a);
+        
+        //Execute macro for each type :
         MPZ2_CLASS_INHERIT_H(short);
         MPZ2_CLASS_INHERIT_H(unsigned short);
         MPZ2_CLASS_INHERIT_H(int);
@@ -71,23 +94,6 @@ class mpz2_class : public mpz_class
         MPZ2_CLASS_INHERIT_H(mpz2_class&);
         MPZ2_CLASS_INHERIT_H(char *);
         MPZ2_CLASS_INHERIT_H(std::string&);
-
-
-        MPZ2_CLASS_STD_H(short);
-        MPZ2_CLASS_STD_H(unsigned short);
-        MPZ2_CLASS_STD_H(int);
-        MPZ2_CLASS_STD_H(unsigned int);
-        MPZ2_CLASS_STD_H(long);
-        MPZ2_CLASS_STD_H(unsigned long);
-        MPZ2_CLASS_STD_H(float);
-        MPZ2_CLASS_STD_H(double);
-
-        //Functions with no types in parameters
-        void clear();
-        mpz2_class& swap(mpz2_class& b);
-        mpz2_class abs();
-        mpz2_class invertmod(mpz2_class mod);
-        bool isPrime(unsigned long testCount);
 
     private:
         static gmp_randstate_t randState;
