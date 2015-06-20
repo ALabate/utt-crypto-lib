@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 	{
 		std::cout << "The number is probably prime" << std::endl;
 		probability= pow(4,-k);
-	std::cout << "Mistake probability is of the order of " << probability << std::endl;
+		std::cout << "Mistake probability is of the order of " << probability << std::endl;
 	}
 	else
 	{

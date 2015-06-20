@@ -3,16 +3,9 @@
  */
 
 #include <sys/time.h>
-#include <gmp.h>
-#include <gmpxx.h>
 #include <iostream>
 #include "../cryptoLib.h"
 
-mpz2_class checksum(mpz2_class input)
-{
-	return (input%0xffffffff);
-}
- 
 int main(int argc, char *argv[])
 {
 	//Init the two big numbers (integer) that we will manipulate
@@ -36,7 +29,7 @@ int main(int argc, char *argv[])
 	res = crypto_pow_classic(a, power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s"  << std::endl; 
-	std::cout << "  Checksum : " << checksum(res) << std::endl; 
+	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
 
 	//Squaring
 	std::cout << "Squaring : " << std::endl;
@@ -44,15 +37,15 @@ int main(int argc, char *argv[])
 	res = crypto_pow(a, power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s"  << std::endl; 
-	std::cout << "  Checksum : " << checksum(res) << std::endl; 
+	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
 
 	//Internal
 	std::cout << "GMP Internal : " << std::endl;
 	gettimeofday(&t1, NULL);
-	mpz_pow_ui(res.get_mpz_t(), a.get_mpz_t(), power);
+	res = a.pow(power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s" << std::endl; 
-	std::cout << "  Checksum : " << checksum(res) << std::endl; 
+	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
 
 	return 0;
 }
