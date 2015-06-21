@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
 	std::cout << "How many test would you want to do? " << std::endl;
 	std::cin >> k;
 
-	if (crypto_primality_test(mpz2_class(nb), k))
+	if (Crypto::rm_probabPrime(mpz2_class(nb), k))
 	{
 		std::cout << "The number is probably prime" << std::endl;
 		probability= pow(4,-k);

@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 	randEnd = (mpz2_class(1) << bitlength) - 1;
 	do {
 		p.setRandom(randStart, randEnd);
-	} while((p%2 == 0) || !crypto_primality_test(p,k));
+	} while((p%2 == 0) || !Crypto::rm_probabPrime(p,k));
 
 
 	std::cout << "Probably prime number found :" << std::endl;

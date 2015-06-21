@@ -26,18 +26,18 @@ int main(int argc, char *argv[])
 	//Classic way of doing c=a^b
 	std::cout << "Classic : " << std::endl;
 	gettimeofday(&t1, NULL);
-	res = crypto_pow_classic(a, power);
+	res = Crypto::pow_classic(a, power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s"  << std::endl; 
-	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
+	std::cout << "  Result end : 0x" << std::hex << (res%0xffffffff) << std::endl; 
 
 	//Squaring
 	std::cout << "Squaring : " << std::endl;
 	gettimeofday(&t1, NULL);
-	res = crypto_pow(a, power);
+	res = Crypto::pow(a, power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s"  << std::endl; 
-	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
+	std::cout << "  Result end : 0x" << std::hex << (res%0xffffffff) << std::endl; 
 
 	//Internal
 	std::cout << "GMP Internal : " << std::endl;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	res = a.pow(power);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s" << std::endl; 
-	std::cout << "  Result end : " << std::hex << (res%0xffffffff) << std::endl; 
+	std::cout << "  Result end : 0x" << std::hex << (res%0xffffffff) << std::endl; 
 
 	return 0;
 }
