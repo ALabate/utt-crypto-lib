@@ -105,8 +105,10 @@ int main(int argc, char const *argv[])
 					std::cout << " 2-Generer des cles" << std::endl;
 					std::cout << " 3-Chiffre un nombre" << std::endl;
 					std::cout << " 4-Déchiffrer un nombre" << std::endl;
-					std::cout << " 5-Chiffre un fichier" << std::endl;
-					std::cout << " 6-Déchiffrer un fichier" << std::endl;
+					std::cout << " 5-Chiffre un message text" << std::endl;
+					std::cout << " 6-Déchiffrer un message text" << std::endl;
+					std::cout << " 7-Chiffre un fichier" << std::endl;
+					std::cout << " 8-Déchiffrer un fichier" << std::endl;
 					std::cout << std::endl << " 0-Menu principal" << std::endl;
 					std::cin >> input;
 					switch(input[0])
@@ -122,6 +124,18 @@ int main(int argc, char const *argv[])
 							break;
 						case '4':
 							system("make example run src=43-eg-decrypt --no-print-directory");
+							break;
+						case '5':
+							system("make example run src=44-eg-txt-encrypt --no-print-directory");
+							break;
+						case '6':
+							system("make example run src=45-eg-txt-decrypt --no-print-directory");
+							break;
+						case '7':
+							system("make example run src=46-eg-file-encrypt --no-print-directory");
+							break;
+						case '8':
+							system("make example run src=47-eg-file-decrypt --no-print-directory");
 							break;
 					}
 					std::cout << std::endl << std::endl;

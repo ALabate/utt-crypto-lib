@@ -1,8 +1,10 @@
 #include "cryptoLib.h"
+#include <iostream>
 
 const mpz2_class Crypto::dh_p = "0xB10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C69A6A9DCA52D23B616073E28675A23D189838EF1E2EE652C013ECB4AEA906112324975C3CD49B83BFACCBDD7D90C4BD7098488E9C219A73724EFFD6FAE5644738FAA31A4FF55BCCC0A151AF5F0DC8B4BD45BF37DF365C1A65E68CFDA76D4DA708DF1FB2BC2E4A4371";
 const mpz2_class Crypto::dh_g = "0xA4D1CBD5C3FD34126765A442EFB99905F8104DD258AC507FD6406CFF14266D31266FEA1E5C41564B777E690F5504F213160217B4B01B886A5E91547F9E2749F4D7FBD7D3B9A92EE1909D0D2263F80A76A6A24C087A091F531DBF0A0169B6A28AD662A4D18E73AFA32D779D5918D08BC8858F4DCEF97C2A24855E6EEB22B3B2E5";
-
+const unsigned long Crypto::dh_blockBytes = 127;
+const unsigned long Crypto::dh_cryptedBlockBytes = 255;
 
 mpz2_class Crypto::pow(mpz2_class a, unsigned long p)
 {
@@ -95,7 +97,6 @@ bool Crypto::rm_probabPrime(mpz2_class n, int k)
 		
 	}
 	return true;
-	
 }
 
 
@@ -200,4 +201,72 @@ mpz2_class Crypto::rsa_encrypt(mpz2_class message, mpz2_class e, mpz2_class n)
 mpz2_class Crypto::rsa_decrypt(mpz2_class encryptedMessage, mpz2_class d, mpz2_class n)
 {
 	return encryptedMessage.powmod(d, n);
+}
+
+
+
+mpz2_class Crypto::file_split(std::ifstream& file, unsigned long n)
+{
+	if(!file.is_open())
+	{
+		fprintf(stderr, "Error : file not found/not opened\n");
+		return -1;
+	}
+
+	mpz2_class out;
+	char* buf = new char [n];
+	file.read(buf, n);
+	n = file.gcount();
+
+	out.bufImport(buf, n);
+	delete[] buf;
+	return out;
+}
+
+void Crypto::file_append(std::ofstream& file, unsigned long n, mpz2_class value)
+{
+	if(!file.is_open())
+	{
+		fprintf(stderr, "Error : file not found/not opened\n");
+		return;
+	}
+
+	char* buf = new char [n];
+	value %= mpz2_class(256).pow(n);
+	size_t length = value.bufExport(buf);
+	if(length < n)
+	{
+		char zero = 0;
+		for (int i = 0; i < (n-length); ++i)
+		{
+			file.write(&zero, 1);
+		}
+	}
+	file.write(buf, length);
+	delete[] buf;
+}
+
+mpz2_class Crypto::buf_split(const char* buf, unsigned long pos, unsigned long n, unsigned long size)
+{
+	if(size != 0 && size < n*(pos+1))
+	{
+		n = size - n*pos;
+	}
+
+	mpz2_class out;
+	char* buf2 = new char [n];
+
+	memcpy(buf2, &buf[pos*n], n);
+	out.bufImport(buf2, n);
+	delete[] buf2;
+	return out;
+}
+
+void Crypto::buf_append(const char* buf, unsigned long pos, unsigned long n, mpz2_class value)
+{
+	char* buf2 = new char [n];
+	value %= (mpz2_class(256).pow(n));
+	value.bufExport(buf2);
+	memcpy((char*) &buf[pos*n], buf2, n);
+	delete[] buf2;
 }

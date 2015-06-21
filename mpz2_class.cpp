@@ -153,6 +153,17 @@ mpz2_class& mpz2_class::setRandom(const mpz2_class a, const mpz2_class b) {
 }
 
 
+void mpz2_class::bufImport(const void *inputBuf, size_t count, size_t size, int endian, int order, size_t nails) {
+	mpz_import((*this).get_mpz_t(), count, order, size, endian, nails, inputBuf);
+}
+
+size_t mpz2_class::bufExport(void *outputBuf, size_t size, int endian, size_t nails, int order) {
+	size_t count;
+	mpz_export(outputBuf, &count, order, size, endian, nails, (*this).get_mpz_t());
+	return count;
+}
+
+
 //Redefine operators
 #define MPZ2_CLASS_INHERIT(TYPE, A) \
 	/* Set */ \

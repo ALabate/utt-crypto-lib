@@ -1,6 +1,7 @@
 #ifndef CRYPTOLIB_H
 #define CRYPTOLIB_H
 
+#include <fstream>
 #include "mpz2_class.h"
 
 class Crypto
@@ -81,6 +82,7 @@ class Crypto
 
 
 
+
 		/**
 		 * @brief This function generate a keypair for the rsa cryptosystem
 		 * @param n - A reference to the variable that will contain n=p*q (p and q are the two prime numbers found)
@@ -110,9 +112,50 @@ class Crypto
 		static mpz2_class rsa_decrypt(mpz2_class encryptedMessage, mpz2_class d, mpz2_class n);
 
 
+
+		/**
+		 * @brief This function give a block of n bytes from a file into a mpz2_class
+		 * @param file - The pointer to the file
+		 * @param n - The length of the block in bytes
+		 * @return the block in a mpz2_class
+		 */
+		static mpz2_class file_split(std::ifstream& file, unsigned long n);
+
+		/**
+		 * @brief This function append at the end of a file a mpz2_class of n bytes
+		 * @param file - The pointer to the file
+		 * @param n - The length of the block in bytes
+		 * @param value - The value to append
+		 */
+		static void file_append(std::ofstream& file, unsigned long n, mpz2_class value);
+
+
+		/**
+		 * @brief This function give a block of n bytes from a buffer into a mpz2_class
+		 * @param buf - The input buffer
+		 * @param pos - The position in blocks (begin from 0)
+		 * @param n - The length of the block in bytes
+		 * @return the block in a mpz2_class
+		 */
+		static mpz2_class buf_split(const char *buf, unsigned long pos, unsigned long n, unsigned long size = 0);
+
+		/**
+		 * @brief This function append at the end of a buffer a mpz2_class of n bytes
+		 * @param buf - The input and output buffer
+		 * @param pos - The position in blocks (begin from 0)
+		 * @param n - The length of the block in bytes
+		 * @param value - The value to append
+		 */
+		static void buf_append(const char *buf, unsigned long pos, unsigned long n, mpz2_class value);
+
+
+
+
 		//Diffie Hellman default prime number and default generator
 		static const mpz2_class dh_p;
 		static const mpz2_class dh_g;
+		static const unsigned long dh_blockBytes;
+		static const unsigned long dh_cryptedBlockBytes;
 
 
 };
