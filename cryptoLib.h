@@ -87,29 +87,29 @@ class Crypto
 		 * @brief This function generate a keypair for the rsa cryptosystem
 		 * @param n - A reference to the variable that will contain n=p*q (p and q are the two prime numbers found)
 		 * @param d - A reference to the variable that will contain the decrypt exponent d=e^-1 [n] 
-		 * @param e - A reference to the variable that will contain the encrypt exponent e, by default its 65537 (but you can set your own and it will not be modified)
+		 * @param e - The encrypt exponent e, by default its 65537 (but you can set your own and it will not be modified)
 		 * @param bitlength - The length of primes numbers p and q
 		 */
-		static void rsa_generateKey(mpz2_class &n, mpz2_class &d, mpz2_class &e, unsigned long bitlength = 1024);
+		static void rsa_generateKey(mpz2_class &n, mpz2_class &d, mpz2_class e = 0, unsigned long bitlength = 1024);
 
 		/**
 		 * @brief This function encrypt a number with rsa
 		 * @param message - The number to encrypt
-		 * @param e - The encrypt exponent
-		 * @param n - n given by the key generator
+		 * @param n - n given by the key generator : The public key
+		 * @param e - The encrypt exponent wich is public
 		 * @return the encrypted result
 		 */
-		static mpz2_class rsa_encrypt(mpz2_class message, mpz2_class e, mpz2_class n);
+		static mpz2_class rsa_encrypt(mpz2_class message, mpz2_class n, mpz2_class e = 0);
 
 
 		/**
 		 * @brief This function decrypt a number with rsa
 		 * @param message - The number to decrypt
-		 * @param d - The decrypt exponent
-		 * @param n - n given by the key generator
+		 * @param n - n given by the key generator : The public key
+		 * @param d - The decrypt exponent : The private key
 		 * @return the decrypted result
 		 */
-		static mpz2_class rsa_decrypt(mpz2_class encryptedMessage, mpz2_class d, mpz2_class n);
+		static mpz2_class rsa_decrypt(mpz2_class encryptedMessage, mpz2_class n, mpz2_class d);
 
 
 
@@ -156,6 +156,10 @@ class Crypto
 		static const mpz2_class dh_g;
 		static const unsigned long dh_blockBytes;
 		static const unsigned long dh_cryptedBlockBytes;
+
+		static const mpz2_class rsa_e;
+		static const unsigned long rsa_blockBytes;
+		static const unsigned long rsa_cryptedBlockBytes;
 
 
 };

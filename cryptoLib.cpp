@@ -6,6 +6,10 @@ const mpz2_class Crypto::dh_g = "0xA4D1CBD5C3FD34126765A442EFB99905F8104DD258AC5
 const unsigned long Crypto::dh_blockBytes = 127;
 const unsigned long Crypto::dh_cryptedBlockBytes = 255;
 
+const mpz2_class Crypto::rsa_e = 65537;
+const unsigned long Crypto::rsa_blockBytes = 128;
+const unsigned long Crypto::rsa_cryptedBlockBytes = 256;
+
 mpz2_class Crypto::pow(mpz2_class a, unsigned long p)
 {
 
@@ -169,14 +173,14 @@ mpz2_class Crypto::eg_decrypt(mpz2_class a, mpz2_class b_pub, mpz2_class encrypt
 
 
 
-void Crypto::rsa_generateKey(mpz2_class &n, mpz2_class &d, mpz2_class &e, unsigned long bitlength)
+void Crypto::rsa_generateKey(mpz2_class &n, mpz2_class &d, mpz2_class e, unsigned long bitlength)
 {
 	//Find prime numbers
 	mpz2_class p, q;
 	mpz2_class randStart, randEnd;
 
 	if(e == 0) {
-		e = 65537;
+		e = Crypto::rsa_e;
 	}
 
 	randStart = mpz2_class(1) << (bitlength - 1);
@@ -193,12 +197,16 @@ void Crypto::rsa_generateKey(mpz2_class &n, mpz2_class &d, mpz2_class &e, unsign
 	n = p*q;
 }
 
-mpz2_class Crypto::rsa_encrypt(mpz2_class message, mpz2_class e, mpz2_class n)
+mpz2_class Crypto::rsa_encrypt(mpz2_class message, mpz2_class n, mpz2_class e)
 {
+	if(e == 0) {
+		e = Crypto::rsa_e;
+	}
+
 	return message.powmod(e, n);
 }
 
-mpz2_class Crypto::rsa_decrypt(mpz2_class encryptedMessage, mpz2_class d, mpz2_class n)
+mpz2_class Crypto::rsa_decrypt(mpz2_class encryptedMessage, mpz2_class n, mpz2_class d)
 {
 	return encryptedMessage.powmod(d, n);
 }

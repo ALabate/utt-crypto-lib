@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 		usr_b = 'a';
 	}
 	else {
-		usr_a = 'b';
+		usr_a = 'a';
 		usr_b = 'b';
 	}
 

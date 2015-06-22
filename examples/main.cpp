@@ -15,8 +15,6 @@ int main(int argc, char const *argv[])
 		std::cout << " 3-Echanger une clé avec Diffie-Hellman" << std::endl;
 		std::cout << " 4-Chiffrer un message avec ElGamal" << std::endl;
 		std::cout << " 5-Chiffre un message avec RSA" << std::endl;
-		std::cout << " 6-Générer la signature d'un message avec ElGamal" << std::endl;
-		std::cout << " 7-Générer la signature d'un message avec RSA" << std::endl;
 		std::cout << std::endl << " 0-Quitter" << std::endl;
 		std::cin >> input;
 
@@ -136,6 +134,52 @@ int main(int argc, char const *argv[])
 							break;
 						case '8':
 							system("make example run src=47-eg-file-decrypt --no-print-directory");
+							break;
+					}
+					std::cout << std::endl << std::endl;
+				}
+				input[0] = ' ';
+				break;
+			case '5': //RSA
+				while(input[0] != '0')
+				{
+					std::cout << "=== Chiffrer un message avec RSA ===" << std::endl;
+					std::cout << "Que souhaitez vous faire ?" << std::endl;
+					std::cout << " 1-Afficher l'ensemble de l'echange de message" << std::endl;
+					std::cout << " 2-Generer des cles" << std::endl;
+					std::cout << " 3-Chiffre un nombre" << std::endl;
+					std::cout << " 4-Déchiffrer un nombre" << std::endl;
+					std::cout << " 5-Chiffre un message text" << std::endl;
+					std::cout << " 6-Déchiffrer un message text" << std::endl;
+					std::cout << " 7-Chiffre un fichier" << std::endl;
+					std::cout << " 8-Déchiffrer un fichier" << std::endl;
+					std::cout << std::endl << " 0-Menu principal" << std::endl;
+					std::cin >> input;
+					switch(input[0])
+					{
+						case '1':
+							system("make example run src=50-rsa --no-print-directory");
+							break;
+						case '2':
+							system("make example run src=51-rsa-generatekey --no-print-directory");
+							break;
+						case '3':
+							system("make example run src=52-rsa-encrypt --no-print-directory");
+							break;
+						case '4':
+							system("make example run src=53-rsa-decrypt --no-print-directory");
+							break;
+						case '5':
+							system("make example run src=54-rsa-txt-encrypt --no-print-directory");
+							break;
+						case '6':
+							system("make example run src=55-rsa-txt-decrypt --no-print-directory");
+							break;
+						case '7':
+							system("make example run src=56-rsa-file-encrypt --no-print-directory");
+							break;
+						case '8':
+							system("make example run src=57-rsa-file-decrypt --no-print-directory");
 							break;
 					}
 					std::cout << std::endl << std::endl;

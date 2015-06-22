@@ -5,10 +5,10 @@
 
 int main(int argc, char const *argv[])
 {
-	mpz2_class a, b_pub, p, encryptedMessage, decryptedMessage;
-
-	char reponse, usr_a, usr_b;
+	mpz2_class a_pub, a_priv, encryptedMessage, decryptedMessage;
+	char usr_a, usr_b;
 	std::string filename;
+	FILE *file;
 
 
 	std::cout << "\nEtes vous a ou b ?" << std::endl;
@@ -26,45 +26,29 @@ int main(int argc, char const *argv[])
 	std::getline(std::cin, filename);
 
 
-	// std::cout << "Voulez-vous choisir un nombre premier et son générateur N/o? (si non, les paramètres par défaut seront utilisés)" << std::endl;
-	// std::cin >> reponse;
-	// if (reponse == 'o' || reponse == 'O')
-	// {
-	// 	std::cout << "Quel est alors le nombre premier?" << std::endl;
-	// 	std::cin >> p;
-	// }
-	// else 
-	// {
-		p = 0;
-	// }
-
-
 	//Get back a private key
-	FILE *file;
-	filename = std::string("eg-priv-") + usr_a + ".tmp";
+	filename = std::string("rsa-priv-") + usr_a + ".tmp";
 	file = fopen(filename.c_str(), "r");
 	if(file == NULL)
   	{
 		std::cout << std::endl << "Error : " << filename << " not found" << std::endl;
 		return 1;
 	}
-	a.inp_str(file, 16);
+	a_priv.inp_str(file, 16);
 	fclose(file);
-	std::cout << "Votre nombre secret est : 0x" << std::hex << a << std::endl;
+	std::cout << "Votre clé privée est : 0x" << std::hex << a_priv << std::endl;
 
 	//Get b public key
-	filename = std::string("eg-pub-") + usr_b + ".tmp";
+	filename = std::string("rsa-pub-") + usr_a + ".tmp";
 	file = fopen(filename.c_str(), "r");
 	if(file == NULL)
   	{
 		std::cout << std::endl << "Error : " << filename <<" not found" << std::endl;
 		return 1;
 	}
-	b_pub.inp_str(file, 16);
+	a_pub.inp_str(file, 16);
 	fclose(file);
-	std::cout << std::endl << "La cle publique de " << usr_b << " est : 0x" << std::hex << b_pub << std::endl;
-
-
+	std::cout << std::endl << "La cle publique de " << usr_a << " est : 0x" << std::hex << a_pub << std::endl;
 
 
 	//Get current path
@@ -89,17 +73,17 @@ int main(int argc, char const *argv[])
     int length = file2.tellg();
     file2.seekg (0, file2.beg);
 
-    int count = length / Crypto::dh_cryptedBlockBytes;
-	char* message = new char [count * Crypto::dh_blockBytes];
+    int count = length / Crypto::rsa_cryptedBlockBytes;
+	char* message = new char [count * Crypto::rsa_blockBytes];
 
 	//decrypt
 	std::string filename_clear = filename + ".cl.tmp";
 	std::ofstream file_clear (filename_clear.c_str(), std::ifstream::binary | std::ofstream::trunc);
 	for (int i = 0; i < count; ++i)
 	{
-		encryptedMessage = Crypto::file_split(file2, Crypto::dh_cryptedBlockBytes);
-		decryptedMessage = Crypto::eg_decrypt(a, b_pub, encryptedMessage, p);
-		Crypto::file_append(file_clear, Crypto::dh_blockBytes, decryptedMessage);
+		encryptedMessage = Crypto::file_split(file2, Crypto::rsa_cryptedBlockBytes);
+		decryptedMessage = Crypto::rsa_decrypt(encryptedMessage, a_pub, a_priv);
+		Crypto::file_append(file_clear, Crypto::rsa_blockBytes, decryptedMessage);
 	}
 	file2.close();
 	file_clear.close();
