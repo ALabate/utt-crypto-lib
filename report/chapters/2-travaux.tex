@@ -1,0 +1,91 @@
+\chapter{Travail réalisé}
+\section{La bibliothèque GMP}
+Pour réaliser notre bibliothèque, nous avons choisis de nous baser en partie sur la bibliothèque libre de droit GMP. Cette bibliothèque permet de faire des calculs sur des entiers signés, des nombres rationnels ou encore des nombre à virgule. La précision des nombres que l’on peut utiliser ne dépend que de la mémoire disponible dans la machine qui fait tourner le programme. Ainsi nous avons pu dépasser la limite que nous impose de base le langage C sur les nombres entiers soit de $0$ à $2^{64}-1$ . Ce nombre peut sembler déjà grand mais nous allons utiliser par la suite des nombres de l’ordre de $2^{1024}$ nous permettant d’avoir des nombres d’une taille comparable à celle utilisée en cryptographie. Nous avons cependant trouvé que le langage C était limitant et que le C++ serait plus adaptée à nos besoins. 
+
+%TODO aurelien C++ et gmp2, déplacer une partie dans intro général ?
+
+\section{Exponentiation rapide}
+\subsection{Principe}
+Nous avons travaillé sur les puissances par le biais de l’exponentiation rapide. Pour calculer des puissances de très grand nombre avec de grands exposants, la méthode utilisée couramment n’est pas la plus efficace. En effet, lors du calcul de $n^p$, le nombre d’opération est de l’ordre de $p$ car l’on effectue $p\times p\times p \dotso n$ fois. Ainsi l'algorithme équivalent de $a^p$ est :
+
+\begin{lstlisting}[language=C++]
+// Le type mpz2_class permet de manipuler des grands nombres entiers (avec GMP)
+mpz2_class puissance_classic(mpz2_class a, mpz2_class p)
+{
+    mpz2_class resultat = 2;
+
+    // Boucler p fois
+    for ( ; p > 0 ; p--)
+    {
+        resultat = resultat * a;
+    }
+
+    return resultat;
+}
+\end{lstlisting}
+
+Il existe cependant une méthode plus efficace qui abaisse le nombre d’opération à $\log_2(p)$, il s’agit de l’exponentiation rapide. Pour expliquer le principe de cette méthode, nous prenons un exemple. On souhaite calculer $3^9$ :
+\begin{itemize}
+	\item Méthode classique : $3\times 3\times 3\times 3\times 3\times 3\times 3\times 3\times 3\times 3=19683$ soit 9 opérations.
+	\item On remarque cependant que $3^9=3^{1+2\times4}=3\times(3\times3)^3$
+	\item On peut pousser cette méthode jusque $3\times\left(\left(\left(3^2\right)^2\right)^2\right)$ soit 4 opérations :
+	\begin{itemize}
+		\item $A=3\times3 = 9$
+		\item $A=A\times A = 81$
+		\item $A=A\times A = 6561$
+		\item $A\times3 = 19683$
+	\end{itemize}
+	\item Le nombre d'opration est de l'ordre de $\log_2(9)=3,17\approx 4$
+\end{itemize} \ \\
+
+
+\subsection{Application}
+L’algorithme consiste donc à décomposer le nombre en puissance de 2. Il y a trois cas possibles pour le calcul de $n^p$ :
+
+\begin{itemize}
+	\item $p=1$ $\Rightarrow$ $n^p=n$
+	\item $p$ pair $\Rightarrow$ $n^p=(n*n)^{p/2}$
+	\item $p$ impair $\Rightarrow$ $n^p=(n*n)^{(p-1)/2} \times n$
+\end{itemize} \ 
+
+Ainsi il est possible de réaliser un algorithme récursif utilisant cette méthode, voici celui implémenté dans notre bibliothèque :
+
+\begin{lstlisting}[language=C++]
+mpz2_class puissance(mpz2_class a, mpz2_class p)
+{
+    if(p <= 1) // Quand il n'y a plus de calculs à faire
+    {
+        if(p <= 0)
+            return 1;
+        else
+            return a;
+    }
+    else if(p%2 == 0) // Si p est pair
+    {
+        return puissance(a*a, p/2);
+    }
+    else // Si p est impair
+    {
+        return puissance(a*a, (p-1)/2) * a;
+    }
+}
+\end{lstlisting}
+
+\subsection{Comparaison des temps de calcul}
+Nous avons effectué des comparaisons de temps d'exécution de ces algorithmes. Il est possible de le faire à nouveau depuis le fichier d’exemple de la librairie. Voici un résultat obtenu, il est à prendre comme ordre d’idée de la différence de rapidité :
+
+\begin{lstlisting}
+Operation :
+	148189247128974289127484021983013239823 ^ 20000
+Classic :
+	Duration : 4.29346 s
+	Result end : 6307f34d
+Squaring :
+	Duration : 0.1142 s
+	Result end : 6307f34d
+GMP Internal :
+	Duration : 0.030614 s
+	Result end : 6307f34d
+\end{lstlisting}
+
+Nous pouvons voir que la méthode “Squaring” (l’exponentiation rapide) est 39 fois plus rapide que la méthode classique. Sur plusieurs essais on arrive à une moyenne de 39,2 fois moins de temps pour l’exponentiation rapide. Il est intéressant de noter par ailleurs que la fonction interne de GMP qui effectue le même calcul est encore plus rapide, il exhiste d’autres méthodes et améliorations possibles pour l’algorithme de calcul des puissances, la preuve en est donnée ici par cette troisième méthode qui va 140 fois plus vite que la méthode dite classique et 4 fois plus vite que l’exponentiation rapide.
