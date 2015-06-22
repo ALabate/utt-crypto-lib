@@ -1,12 +1,14 @@
 \chapter{Travail réalisé}
 \section{La bibliothèque GMP}
-Pour réaliser notre bibliothèque, nous avons choisis de nous baser en partie sur la bibliothèque libre de droit GMP. Cette bibliothèque permet de faire des calculs sur des entiers signés, des nombres rationnels ou encore des nombre à virgule. La précision des nombres que l’on peut utiliser ne dépend que de la mémoire disponible dans la machine qui fait tourner le programme. Ainsi nous avons pu dépasser la limite que nous impose de base le langage C sur les nombres entiers soit de $0$ à $2^{64}-1$ . Ce nombre peut sembler déjà grand mais nous allons utiliser par la suite des nombres de l’ordre de $2^{1024}$ nous permettant d’avoir des nombres d’une taille comparable à celle utilisée en cryptographie. Nous avons cependant trouvé que le langage C était limitant et que le C++ serait plus adaptée à nos besoins. 
+Pour réaliser notre bibliothèque, nous avons choisis de nous baser en partie sur la bibliothèque libre de droit GMP. Cette bibliothèque permet de faire des calculs sur des entiers signés, des nombres rationnels ou encore des nombre à virgule. La précision des nombres que l'on peut utiliser ne dépend que de la mémoire disponible dans la machine qui fait tourner le programme. Ainsi nous avons pu dépasser la limite que nous impose de base le langage C sur les nombres entiers soit de $0$ à $2^{64}-1$ . Ce nombre peut sembler déjà grand mais nous allons utiliser par la suite des nombres de l'ordre de $2^{1024}$ nous permettant d'avoir des nombres d'une taille comparable à celle utilisée en cryptographie. Nous avons cependant trouvé que le langage C était limitant et que le C++ serait plus adaptée à nos besoins. 
 
 %TODO aurelien C++ et gmp2, déplacer une partie dans intro général ?
 
+
+
 \section{Exponentiation rapide}
 \subsection{Principe}
-Nous avons travaillé sur les puissances par le biais de l’exponentiation rapide. Pour calculer des puissances de très grand nombre avec de grands exposants, la méthode utilisée couramment n’est pas la plus efficace. En effet, lors du calcul de $n^p$, le nombre d’opération est de l’ordre de $p$ car l’on effectue $p\times p\times p \dotso n$ fois. Ainsi l'algorithme équivalent de $a^p$ est :
+Nous avons travaillé sur les puissances par le biais de l'exponentiation rapide. Pour calculer des puissances de très grand nombre avec de grands exposants, la méthode utilisée couramment n'est pas la plus efficace. En effet, lors du calcul de $n^p$, le nombre d'opération est de l'ordre de $p$ car l'on effectue $p\times p\times p \dotso n$ fois. Ainsi l'algorithme équivalent de $a^p$ est :
 
 \begin{lstlisting}[language=C++]
 // Le type mpz2_class permet de manipuler des grands nombres entiers (avec GMP)
@@ -24,7 +26,7 @@ mpz2_class puissance_classic(mpz2_class a, mpz2_class p)
 }
 \end{lstlisting}
 
-Il existe cependant une méthode plus efficace qui abaisse le nombre d’opération à $\log_2(p)$, il s’agit de l’exponentiation rapide. Pour expliquer le principe de cette méthode, nous prenons un exemple. On souhaite calculer $3^9$ :
+Il existe cependant une méthode plus efficace qui abaisse le nombre d'opération à $\log_2(p)$, il s'agit de l'exponentiation rapide. Pour expliquer le principe de cette méthode, nous prenons un exemple. On souhaite calculer $3^9$ :
 \begin{itemize}
 	\item Méthode classique : $3\times 3\times 3\times 3\times 3\times 3\times 3\times 3\times 3\times 3=19683$ soit 9 opérations.
 	\item On remarque cependant que $3^9=3^{1+2\times4}=3\times(3\times3)^3$
@@ -40,7 +42,7 @@ Il existe cependant une méthode plus efficace qui abaisse le nombre d’opérat
 
 
 \subsection{Application}
-L’algorithme consiste donc à décomposer le nombre en puissance de 2. Il y a trois cas possibles pour le calcul de $n^p$ :
+L'algorithme consiste donc à décomposer le nombre en puissance de 2. Il y a trois cas possibles pour le calcul de $n^p$ :
 
 \begin{itemize}
 	\item $p=1$ $\Rightarrow$ $n^p=n$
@@ -72,9 +74,9 @@ mpz2_class puissance(mpz2_class a, mpz2_class p)
 \end{lstlisting}
 
 \subsection{Comparaison des temps de calcul}
-Nous avons effectué des comparaisons de temps d'exécution de ces algorithmes. Il est possible de le faire à nouveau depuis le fichier d’exemple de la librairie. Voici un résultat obtenu, il est à prendre comme ordre d’idée de la différence de rapidité :
+Nous avons effectué des comparaisons de temps d'exécution de ces algorithmes. Il est possible de le faire à nouveau depuis le fichier d'exemple de la librairie. Voici un résultat obtenu, il est à prendre comme ordre d'idée de la différence de rapidité :
 
-\begin{lstlisting}
+\begin{lstlisting}[language={}]
 Operation :
 	148189247128974289127484021983013239823 ^ 20000
 Classic :
@@ -88,4 +90,255 @@ GMP Internal :
 	Result end : 6307f34d
 \end{lstlisting}
 
-Nous pouvons voir que la méthode “Squaring” (l’exponentiation rapide) est 39 fois plus rapide que la méthode classique. Sur plusieurs essais on arrive à une moyenne de 39,2 fois moins de temps pour l’exponentiation rapide. Il est intéressant de noter par ailleurs que la fonction interne de GMP qui effectue le même calcul est encore plus rapide, il exhiste d’autres méthodes et améliorations possibles pour l’algorithme de calcul des puissances, la preuve en est donnée ici par cette troisième méthode qui va 140 fois plus vite que la méthode dite classique et 4 fois plus vite que l’exponentiation rapide.
+Nous pouvons voir que la méthode <<~Squaring~>> (l'exponentiation rapide) est 39 fois plus rapide que la méthode classique. Sur plusieurs essais on arrive à une moyenne de 39,2 fois moins de temps pour l'exponentiation rapide. Il est intéressant de noter par ailleurs que la fonction interne de GMP qui effectue le même calcul est encore plus rapide, il exhiste d'autres méthodes et améliorations possibles pour l'algorithme de calcul des puissances, la preuve en est donnée ici par cette troisième méthode qui va 140 fois plus vite que la méthode dite classique et 4 fois plus vite que l'exponentiation rapide.
+
+
+
+
+
+
+
+
+\section{Test de primalité de Rabin-Miller}
+\subsection{Principe}
+Il existe plusieurs manières de tester la primalité des nombres. Deux grandes méthodes s'opposent. Les méthodes probabilistes et les non-probabilistes. Ces dernières concsitent généralement à tester d'une manière plus ou moins complexe tous les nombres qui pourraient diviser l'entier dont on teste la primalité. Au contraire, les algorithme probabilistes ne testent pas tous les valeurs possibles de leurs tests. Ainsi nous n'avons jamais une certitude à 100\% que le nombre tiré soit premier. Il est cependant possible d'avoir de très très faibles chances de se tromper. L'algorithme de Rabin-Miller est un test de primalité probabiliste. Il faut donc lui donner en entrée le nombre à tester mais aussi le nombre de test à effectuer sur ce nombre. La probabilité de se tromper sur l'affirmation <<~le nombre est probablement premier~>> alros qu'en réalité il ne l'est pas est de $4^{-k}$ où $k$ est le nombre de test que l'on applique au nombre. On se rend compte que l'on a pas besoin de tester beaucoup de fois le nombre pour savoir s'il est probablement premier ou non.\\
+
+Le principe de l'algorithme de Rabin-Miller est que si :
+\[ a^d \neq 1\ (\text{mod } n) \quad\text{et}\quad \forall r\left\{0,1,\cdots,s-1\right\} a^{2^r d} \neq -1\ (\text{mod } n) \]
+
+
+\subsection{Application}
+Ainsi nous avons l'algorithme suivant qui permet de tester la primalité d'un nombre : 
+
+\setlength\itemindent{2cm} 
+\begin{itemize}
+	\item[] \textbf{Entrée}
+		\begin{itemize}
+			\item[] $n>2$ : un entier dont on teste la primalité
+			\item[] $k$ : un paramètre qui définit la précision du test 
+		\end{itemize}
+	\item[] \textbf{Sortie}
+		\begin{itemize}
+			\item[] \textit{composé} : si $n$ est un nombre composé
+			\item[] \textit{probablement premier} :  si les k tests n'ont pas montré qu'il était composédu test 
+		\end{itemize}
+	\item[] \textbf{Algorithme}
+		\begin{itemize}
+			\item[] Écrire  $n-1$ sous la forme $2^s\times d$ avec $d$ impair.\\
+			Pour cela, diviser $n-1$ par $2$ ($s$ fois) jusqu'à ce que le quotient $d$ soit impair.
+			\item[] \textbf{\textit{BOUCLE} : répéter} $k$ fois :
+			\begin{itemize}
+				\item[] Tirer un nombre aléatoire $a$ compris dans l'interval $[2,n-1]$
+				\item[] $x \leftarrow a^d \mod n$
+				\item[] \textbf{si} $x=1$ \textbf{ou si} $x=n-1$ : \textbf{aller à la prochaine} \textit{BOUCLE}
+				\item[] \textbf{pour} $r=1\cdots s-1$
+				\begin{itemize}
+					\item[] $x \leftarrow x^2 \mod n$
+					\item[] \textbf{si} $x = 1$ : \textbf{retourner} \textit{composé}
+					\item[] \textbf{si} $x=n-1$ : \textbf{aller à la prochaine} \textit{BOUCLE}
+				\end{itemize}
+				\item[] \textbf{retourner} \textit{composé}
+			\end{itemize}
+			\textbf{retourner} \textit{probablement premier}
+		\end{itemize}
+\end{itemize}
+
+\subsection{Comparaison des temps de calcul}
+Nous avons ici aussi effectué un test de rapidité selon plusieurs algorithmes, voici leurs résultats : 
+
+\begin{lstlisting}[language={}]
+Ce programme essai de vérifier si un nombre est premier avec l'algorithme de Rabin-Miller. Le nombre suivant sera testé 5000 fois :
+
+  9b83c987e7277d74c350556297556cf013f5d8d1e334b3af169303569b7b8f30
+  968e19cc340d1dfed4a382d072eda1c33a46e864310dc86c175aa9069f61c38a
+  d518272ced4cd7ca7d7ef27b172b0cfd1b26b4d5241154dfc146325fd056771f
+  7bd002b59c67b3bbee16826faced5b7a104b5f64d3331d31f212174039075fe3
+  
+Simple Rabin-Miller :
+  Duration : 10.0266 s
+  Probably prime
+GMP Internal :
+  Duration : 9.90365 s
+  Probably prime
+\end{lstlisting}
+
+Ici encore la bibliothèque GMP est plus rapide. Et pourant la fonction de GMP fait plus que notre fonction de Rabin-Miller. En effet si un nombre à tester a déjà été tiré au hasard, la fonction tire un autre nombre à la place alors que la notre tesera à nouveau cette valeur en faisant faussement augmenter la probabilité de primalité.
+
+De plus si tous les nombres ont été testés, alors la fonction retourne $2$ soit \textit{le nombre est premier} car en testant tous les nombres de $2$ à $n-1$ on passe à un test non probabiliste et ainsi on peut affirmer avec certitude que $n$ est premier.
+
+Il faut aussi noter que dans notre exemple nous avons pris $k=5000$ ce qui est un nombre démesurément grand par rapport aux besoins du test. Avec $k=100$ on a déja une probabilité de se tromper en affirmant que le nombre est premier alors qu'il ne l'est pas de $4^{-100}=6,2230153.10^{-61}$.
+
+\section{Diffie-Helmann}
+\subsection{Principe}
+
+L'échange de clé Diffie-Hellman est un système de cryptographie asymétrique. Il permet à deux personnes (prenons par exemple Alice et Bob) de se transmettre d'une manière sécurisée une clé commune. Pour expliquer son fonctionnement nous allons au préalable faire quelques rappels mathématiques.\\
+
+Nous travaillons dans l'anneau $\mathbb{Z}/\mathbb{Z}_p$ qui est un cas particulier d'anneau commutatif, il correspond au calcul de module sur les restes de la division entière par $p$. Or les nombres $p$ que nous utilisons sont uniquement des nombres premiers, ainsi $\mathbb{Z}/\mathbb{Z}_p$ est dans notre cas un corps fini et donc commutatif.\\
+
+%TODO FLORENT/aurelien : Ajouter ici une partie sur les éléments générateurs maybe et sur le logarithme discret?
+
+Nous allons maintenant faire un exemple pour illustrer cet échange de clé. Nous allons garder nos deux protagonistes Alice et Bob.
+
+\begin{itemize}
+	\item \textbf{Première étape} : Alice et Bob vont se mettre d'accords sur un nombre premier $p$ et une base $g$ de l'ensemble $\mathbb{Z}/\mathbb{Z}_p$. Pour cela ils n'ont pas besoin d'un canal de communication sécurisé. Dans un même temps Alice et Bob vont choisir chacun de leur côté un nombre secret $a$ pour Alice et $b$ pour Bob.\\
+	\item \textbf{Deuxième étape} :\\
+	Alice calcule :
+	\[A=g^a \mod p\]
+	De son coté Bob calcule :
+	\[B=g^b \mod p\]
+	Ils s'envoient chacun ce résultat.\\
+	Alice connait donc $a$, $A$ et $B$ et Bob connait $b$, $B$ et $A$.\\
+	\item \textbf{Troisième étape} :\\
+	Alice calcule :
+		\begin{align*}
+			B^a&=\left(g^b\right)^a \mod p\\
+			&=g^{ab} \mod p \\
+			&=S
+		\end{align*}
+	Bob calcule de la même manière :
+		\begin{align*}
+			A^b&=\left(g^a\right)^b \mod p\\
+			&=g^{ba} \mod p \\
+			&=S
+		\end{align*}
+\end{itemize}
+On voit donc qu'à l'issue de ces deux calculs, Alice et Bob ont tous les deux une clé secrète en commun $S$. L'avantage de cet échange de clé est qu'il peut être fait sur un canal non sécurisé. En effet une personne qui écouterait les conversations pourrait obtenir :
+\[ A=g^a \mod p \]
+et
+\[ B=g^b \mod p \]
+Or le problème du logarithme discret rend impossible avec des nombres de départs $p$, $a$ et $b$ suffisamment grand de retrouver depuis $A$ et $B$ les valeurs $a$ et $b$ même avec une recherche exhaustive.
+%TODO : sûr pour la recherche exhaustive ?
+
+\subsection{Application}
+Dans notre bibliothèque nous avons créer deux fonctions correspondant aux étapes 2 et 3 de l'échange de clé :
+\begin{lstlisting}[language=C++]
+mpz2_class diffieHellman_etape1(mpz2_class a, mpz2_class p = 0, mpz2_class g = 0)
+{
+	// Si non spécifiés, les p et g utilisés
+	// seront ceux inclus dans la librairie
+	if (p == 0)
+	{
+		p = Crypto::dh_p;
+	}
+	if (g == 0)
+	{
+		g = Crypto::dh_g;
+	}
+
+	// On calcule g^a mod p
+	mpz2_class A;
+	A = g.powmod(a,p);
+
+	return A;
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C++]
+mpz2_class diffieHellman_etape2(mpz2_class a, mpz2_class B, mpz2_class p)
+{
+	// Récupération du p par défaut
+	if (p == 0)
+	{
+		p = Crypto::dh_p;
+	}
+
+	// On calcule B^a mod p.
+	mpz2_class S;
+	S = B.powmod(a,p);
+
+	return S;
+}
+\end{lstlisting}
+
+Nous avons choisi de mettre des valeurs par défaut pour $p$ et $g$ dans le cas où les utilisateurs ne voudraient pas chercher des couples $p$ et $g$. Ce couple choisi est directement issu d'une norme sur l'échange de clé de Diffie-Hellman. En effet, les paramètres $p$ et $g$ n'ont pas besoin d'être tenus secret. C'est pourquoi il sont normalisés et peuvent être trouvés en ligne. 
+
+
+
+\section{ElGamal}
+\subsection{Principe}
+
+Le cryptosystème de ElGamal est un algorithme basé essentiellement sur le même concept que l'échange de clé de Diffie-Hellman dont le but ne serait pas d'obtenir une clé commune aux deux personnes qui se parlent mais plutôt pour une personne d'envoyer un message à un autre. Prenons de nouveau Alice et Bob pour notre exemple :
+
+\begin{itemize}
+	\item \textbf{Première étape} : Alice va choisir un nombre premier $p$ et un générateur $g$ du groupe $\mathbb{Z}/\mathbb{Z}_p$. Par la suite Alice va choisir une clé secrète $a$ suffisamment grande pour que le calcul du logarithme discret soit infaisable. Alice va par la suite calculer :
+	\[A=g^a \mod p\]
+	Le triplet $(A,g,p)$ sera la clé publique d'Alice. Elle va d'ailleurs la publier pour que quiconque voudrait communiquer avec elle puisse la trouver.\\
+
+	\item \textbf{Deuxième étape} : Bob souhaite envoyer un message chiffré à Alice. Pour cela il va récupérer la clé publique d'Alice et calculer 
+	\begin{align*}
+		A^b&=\left(g^a\right)^b \mod p\\
+		&=g^{ab} \mod p \\
+		&=S
+	\end{align*}
+	Il va ensuite transformer son message en un ou plusieurs nombre. Pour chaque nombre $m$ obtenu Bob va calculer
+	\[ M=S\times m \mod p \]
+	Il va par ailleurs calculer
+	\[ B=g^b \mod p \]
+	Le duet $(M,B)$ sera le message que Bob va envoyer à Alice.\\
+
+	\item \textbf{Troisième étape} : Alice va recevoir le duet $(M,B)$ de Bob elle va par la suite calculer :
+	\begin{align*}
+		B^a&=\left(g^b\right)^a \mod p\\
+		&=g^{ba} \mod p \\
+		&=S
+	\end{align*}
+	Ensuite elle déchiffrera le message en calculant
+	\[ m=\frac{M}{S} \mod p \]
+
+\subsection{Application}
+
+Nous avons suivi les trois étapes en créant trois fonctions dans notre bibliothèque :
+La première est : 
+
+\begin{lstlisting}[language=C++]
+mpz2_class elGamal_generationCles(mpz2_class a, mpz2_class p, mpz2_class g)
+{
+	return diffieHellman_etape1(a, p, g);
+}
+\end{lstlisting}
+
+Nous pouvons voir ici que la première étape d'ElGamal est exactement la même que celle de Diffie-Hellman. Cependant pour plus de lisibilité du code nous avons créé une fonction ElGamal appelant une fonction de Diffie-Hellmann.
+
+\begin{lstlisting}[language=C++]
+mpz2_class elGamal_chiffre(mpz2_class a, mpz2_class B, mpz2_class message, mpz2_class p)
+{
+	// Récupération du p par défaut
+	if(p == 0) {
+		p = Crypto::dh_p;
+	}
+
+	mpz2_class cleCommune, messageChiffre;
+
+	// Calcule de la clé commune
+	cleCommune = diffieHellman_etape2(a, B, p);
+
+	// Chiffrement du message
+	messageChiffre = message * cleCommune;
+
+	return messageChiffre;
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C++]
+mpz2_class elGamal_dechiffre(mpz2_class a, mpz2_class B, mpz2_class messageChiffre, mpz2_class p)
+{
+	// Récupération du p par défaut
+	if (p == 0) {
+		p = Crypto::dh_p;
+	}
+
+	mpz2_class cleCommune, messageDechiffre; 
+
+	// Calcule de la clé commune
+	cleCommune = Crypto::dh_step2(a, B, p);
+
+	// Dechiffrement du message
+	messageDechiffre = messageChiffre / cleCommune;
+
+	return messageDechiffre;
+}
+\end{lstlisting}
+
+Les deuxième et troisièmes méthodes se basent aussi en partie sur du Diffie-Hellman mais cependant des modifications sont ajoutées afin de pouvoir envoyer un message.
+
+\section{RSA}
+\subsection{Principe}
+\subsection{Application}
