@@ -64,26 +64,11 @@
             \frametitle{\vspace*{-1.0cm} \begin{flushright} Introduction \ \ \vskip-0.25cm \end{flushright} }
             \vspace*{-0.75cm}
             \begin{itemize}
-                \item Développement d'un robot autonome pour la coupe de France
-                \item Classement: 54èmes sur plus de 180 équipes
-                \item Casse mécanique du robot principal !
-                \item Objectif: proposer des bases théoriques, algorithmiques et logicielles solides pour les années suivantes
+                \item Acquérir des connaissances en cryptographie 
+                \item Création d'une librairie en C avec des fonctions de cryptographie
+                \item Faire un programme d'exemple avec un menu pour présenter les algorithmes
             \end{itemize}
         \end{center}
-    \end{frame}
-
-    \begin{frame}[c]
-        \frametitle{\vspace*{-1.0cm} \begin{flushright} Introduction \ \ \vskip-0.25cm \end{flushright} }
-        La robotique est une discipline complexe, elle allie:
-        \begin{center}
-            \begin{itemize}
-                \item Informatique
-                \item Électronique
-                \item Mécanique
-                \item Sciences physiques, algorithmique..
-            \end{itemize}
-        \end{center}
-        Dans cette présentation, on parlera d'\textbf{informatique} et de \textbf{réseau}.
     \end{frame}
 
 
@@ -168,110 +153,68 @@
             \vspace*{0.5cm}
 			\begin{center}
 			\textbf {Les différents algorithmes}
-			\end{center}			            
-             \begin{textblock*}{1cm}(4cm,3cm)
-                \textbf{UART}
-            \end{textblock*}
+			\end{center}
             \begin{center}
                 \begin{itemize}
-                    \item Liaison full-duplex
-                    \item Niveau logique: TTL
-                    \item Connexion asynchrone
-                    \item CRC basique: bit de parité
-                    \item Débit (baudrate) variable, maximum 3,6GBauds théoriques
-                    \item 2 fils par pair de périphérique
+                    \item Exponentiation rapide
+                    \item Test de primalité de Rabin-Miller
+                    \item Diffie-Helmann
+                    \item ElGamal
+                    \item RSA
                 \end{itemize}
             \end{center}
         \end{frame}
 
         \begin{frame}[c]
-            \frametitle{\vspace*{-1.0cm} \begin{flushright} Technologies de communication \ \ \vskip-0.25cm \end{flushright} }
+            \frametitle{\vspace*{-1.0cm} \begin{flushright} Les algorithmes principaux \ \ \vskip-0.25cm \end{flushright} }
             \vspace*{0.5cm}
-             \begin{textblock*}{1cm}(4cm,3cm)
-                \textbf{SPI}
-            \end{textblock*}
+             \begin{center}
+             \textbf{Test de primalité de Rabin-Miller}
+             \end{center}
             \begin{center}
                 \begin{itemize}
-                    \item Liaison full-duplex
-                    \item Bus de donnée, relation master/slave
-                    \item Connexion synchrone: le master donne la clock
-                    \item Bus de donnée de deux fil, et un fil d'addressage par esclave
-                    \item Débit élevé pour un bus, jusqu'à 20Mb/s
-                    \item Protocle simple, pas d'adressage/gestion d'erreur
+                    \item Algorithme probabiliste
+                    \item En entrée un entier n à tester et un entier k (précision)
+                    \item En sortie "probablament premier" ou "composé"
+                    \item Probabilité de se tromper :  $4^{-k}$ 
                 \end{itemize}
             \end{center}
         \end{frame}
 
         \begin{frame}[c]
-            \frametitle{\vspace*{-1.0cm} \begin{flushright} Technologies de communication \ \ \vskip-0.25cm \end{flushright} }
+            \frametitle{\vspace*{-1.0cm} \begin{flushright} Les algorithmes principaux \ \ \vskip-0.25cm \end{flushright} }
             \vspace*{0.5cm}
-             \begin{textblock*}{1cm}(4cm,3cm)
-                \textbf{CAN}
-            \end{textblock*}
+             \begin{center}
+             \textbf{ElGamal}
+             \end{center}
             \begin{center}
                 \begin{itemize}
-                    \item Liaison half-duplex
-                    \item Bus de donnée, relation multi-master
-                    \item Connexion asynchrone
-                    \item Detection et retour sur erreur physique
-                    \item Débit moyen pour un bus, jusqu'à 1Mb/s
-                    \item Fonctionnement "événementiel"
-                    \item Jusqu'à 30 périphériques, système d'adressage
-                    \item Très résistant aux perturbations
+                    \item Algorithme servant à chiffrer et déchiffrer un message 
+                    \item Clé publique d'Alice : (p,g,A)
+                    \item Clés privées a et b avec $A=g^a$ et $B=g^b$
+                    \item Message chiffré de Bob : (M,B)
+                    \item Déchiffrement $m=M/B^a$
                 \end{itemize}
             \end{center}
         \end{frame}
 
         \begin{frame}[c]
-            \frametitle{\vspace*{-1.0cm} \begin{flushright} Technologies de communication \ \ \vskip-0.25cm \end{flushright} }
+            \frametitle{\vspace*{-1.0cm} \begin{flushright} Les algorithmes principaux \ \ \vskip-0.25cm \end{flushright} }
             \vspace*{0.5cm}
-             \begin{textblock*}{1cm}(4cm,3cm)
-                \textbf{I2C}
-            \end{textblock*}
+             \begin{center}
+             \textbf{RSA}
+             \end{center}
             \begin{center}
                 \begin{itemize}
-                    \item Liaison half-duplex
-                    \item Bus de donnée, relation master/slave ou multi-master
-                    \item Connexion synchrone: un fil commun de clock
-                    \item Débit faible, jusqu'à 400Kb/s
-                    \item Jusqu'à une centaine de périphériques, système d'adressage
-                    \item Un bus de donnée sur un fil
-                    \item Aquittement des données
+ 				  \item Algorithme servant à chiffrer et déchiffrer un message 
+                    \item Génération d'un couple de clés : clé publique (n,e), clé privée (n,d)
+                    \item Généralement on prend un e constant
+                    \item $n=p\times q$ ou p et q sont premiers
+                    \item $d=e^{-1} \mod\phi(n)$ où $\phi(n) = (p-1)(q-1)$
+                    \item chiffrement : $C=M^e \mod(n)$
+                    \item déchiffrement : $M=C^d \mod(n)$
                 \end{itemize}
             \end{center}
-        \end{frame}
-
-        \begin{frame}[c]
-            \frametitle{\vspace*{-1.0cm} \begin{flushright} Technologies de communication \ \ \vskip-0.25cm \end{flushright} }
-            \vspace*{0.5cm}
-             \begin{textblock*}{1cm}(4cm,3cm)
-            \end{textblock*}
-            Technologie choisie: I2C.\\
-            Problèmes:
-            \begin{center}
-                \begin{itemize}
-                    \item Intégrité des données
-                    \item Architecture master/slave
-                    \item Librairies Javascript peu abouties
-                \end{itemize}
-            \end{center}
-        \end{frame}
-
-        \begin{frame}[c]
-            \frametitle{\vspace*{-1.0cm} \begin{flushright} Technologies de communication \ \ \vskip-0.25cm \end{flushright} }
-            \vspace*{0.5cm}
-            \textbf{Construction d'une surcouche du protocole}\\
-            \ \\
-            Le but principal est d'avoir un retour sur erreur.
-            \begin{center}
-                \begin{itemize}
-                    \item Taille du packet annoncée
-                    \item Numéro de packet
-                    \item Données
-                    \item CRC: XORSum
-                \end{itemize}
-            \end{center}
-            TABLEAU - FRAME ici
         \end{frame}
 
 \section{Conclusion}
@@ -279,16 +222,18 @@
         \frametitle{\vspace*{-1.0cm} \begin{flushright} Conclusion \ \ \vskip-0.25cm \end{flushright} }
         \vspace*{-0.75cm}
         \begin{itemize}
-            \item Travail important sur les parties réutilisables
-            \item Une documentation interne au club
-            \item Le travail continu :
+            \item Beaucoup de connaissances acquises ou approfondies:
             \begin{itemize}
-                \item Le bus can
-                \item La modularité jusqu'au physique
-                \item Des Arduino faites maison
-                \item Moteur brushless
-            \end{itemize}
-            \item Un robot que nous pour les prochains évènements
+            		\item Notions et principes de crytographie
+            		\item C++
+            		\item GMP
+            		\item \LaTeX
+            		\item Gestion de projet de recherche
+			\end{itemize}
+             
+            \item La bibliothèque a été crée et est fonctionnelle
+            \item Beaucoup d'exemples pour utiliser la bibliothèque et comprendre les algorithmes de cryptographie en jeu
+            
         \end{itemize}
 
     \end{frame}
