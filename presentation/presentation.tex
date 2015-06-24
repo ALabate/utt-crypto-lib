@@ -8,6 +8,65 @@
 \usepackage{url}
 % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]{eso-pic}
 
+
+
+% Display code
+\usepackage{listings}
+    \definecolor{dkgreen}{rgb}{0,0.6,0}
+    \definecolor{gray}{rgb}{0.5,0.5,0.5}
+    \definecolor{mallow}{rgb}{0.58,0,0.82}
+
+    \lstset{
+        language=C++,
+        aboveskip=3mm,
+        belowskip=3mm,
+        showstringspaces=false,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        numbers=none,
+        numberstyle=\tiny\color{gray},
+        keywordstyle=\color{blue},
+        commentstyle=\color{dkgreen},
+        stringstyle=\color{mallow},
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=4,
+        frame=single,
+        literate=%
+            {é}{{\'e}}1
+            {É}{{\'E}}1
+            {è}{{\`e}}1
+            {à}{{\`a}}1
+            {È}{{\`E}}1
+            {À}{{\`A}}1
+            {ê}{{\^e}}1
+            {â}{{\^a}}1
+            {î}{{\^\i}}1
+            {ô}{{\^o}}1
+            {û}{{\^u}}1
+            {Ê}{{\^E}}1
+            {Â}{{\^A}}1
+            {Î}{{\^I}}1
+            {Ô}{{\^O}}1
+            {Û}{{\^U}}1
+            {ë}{{\"e}}1
+            {ï}{{\"\i}}1
+            {ü}{{\"u}}1
+            {Ë}{{\"E}}1
+            {Ï}{{\"I}}1
+            {Ü}{{\"U}}1
+            {ç}{{\c c}}1
+            {Ç}{{\c C}}1
+            {æ}{{\ae}}1
+            {Æ}{{\AE}}1
+            {œ}{{\oe}}1
+            {Œ}{{\OE}}1
+            {Å}{{\AA}}1
+    }
+
+
+
+
 \definecolor{bleu}{rgb}{0.282, 0.439, 0.643}
 
 \usecolortheme[named=bleu]{structure}
@@ -88,30 +147,96 @@
 
 
 \section{Environnement de programmation}
+
+
+\defverbatim[colored]\makeset{\begin{lstlisting}[language=C++]
+    mpz_t a, b, c, res;
+    mpz_init_set_ui(a, 42);
+    mpz_init_set_str(b, "3172371623812", 10);
+    mpz_init_set_str(c, "1A", 16);
+
+    mpz_mul(res, b, c);
+    mpz_add(res, a, res);
+
+    printf("%s\n", mpz_get_str (NULL, 10, res));
+\end{lstlisting}}
+
     \begin{frame}[c]
-        \frametitle{\vspace*{-1.0cm} \begin{flushright} Environnement de programmation \ \ \vskip-0.25cm \end{flushright} }
-        \vspace*{1.5cm}
-        \begin{center}
-            \textbf{Une architecture modulaire ?}
-        \end{center}
-        Inconveniants
-        \begin{center}
-            \begin{itemize}
-                \item Plus cher
-                \item Plus volumineux
-                \item Plus de cables
-            \end{itemize}
-        \end{center}
-        Avantages
-        \begin{center}
-            \begin{itemize}
-                \item Réutilisable
-                \item Facilité de séparation des tâches
-                \item Changement facile de chaques modules
-                \item Moins de problèmes en cas d'erreurs
-            \end{itemize}
-        \end{center}
+        \frametitle{\vspace*{-1.0cm} \begin{flushright}Langage de programmation \ \ \vskip-0.25cm \end{flushright} }
+        \begin{itemize}
+            \item Projet originalement proposé en C avec GMP
+            \item Mais la syntaxe est très lourde en utilisant la librairie GMP en C
+            \item Par exemple pour $42+ 3172371623812\times 0x1A$ :
+        \end{itemize}
+        \makeset
     \end{frame}
+
+
+\defverbatim[colored]\makeset{\begin{lstlisting}[language=C++]
+    mpz_class a, b, c, res;
+    a = 42;
+    b = "3172371623812";
+    c = "0x1A";
+
+    res = a + b * c;
+
+    std::cout << "Résultat : " << res << std::endl;
+\end{lstlisting}}
+
+
+    \begin{frame}[c]
+        \frametitle{\vspace*{-1.0cm} \begin{flushright}Langage de programmation \ \ \vskip-0.25cm \end{flushright} }
+        \begin{itemize}
+            \item Alors qu'avec la version C++ de GMP :
+            \makeset
+            \item Cependant, le C++ est moins connu est peut gêner
+        \end{itemize}
+    \end{frame}
+
+
+\defverbatim[colored]\makeset{\begin{lstlisting}[language=C++]
+    mpz_class a, res;
+    a = 2;
+
+    res = mpz_pow_ui(a.get_mpz_t(), 3);
+
+    std::cout << "Résultat : " << res << std::endl;
+\end{lstlisting}}
+
+
+    \begin{frame}[c]
+        \frametitle{\vspace*{-1.0cm} \begin{flushright}Bibliotheque \ \ \vskip-0.25cm \end{flushright} }
+        \begin{itemize}
+            \item La version C++ de GMP manque certaines fonctionnalités
+            \item Ainsi pour calculer $2^3$ :
+
+            \makeset
+            \item On doit utiliser les fonction de la version C
+        \end{itemize}
+    \end{frame}
+
+
+
+\defverbatim[colored]\makeset{\begin{lstlisting}[language=C++]
+    mpz2_class a, res;
+    a = 2;
+
+    res = a.pow(3);
+
+    std::cout << "Résultat : " << res << std::endl;
+\end{lstlisting}}
+
+
+    \begin{frame}[c]
+        \frametitle{\vspace*{-1.0cm} \begin{flushright}Bibliotheque \ \ \vskip-0.25cm \end{flushright} }
+        \begin{itemize}
+            \item Nous avons donc créer une librairie qui évite cela tout en gardant les avantages :
+
+            \makeset
+        \end{itemize}
+    \end{frame}
+
+
     \begin{frame}[c]
         \frametitle{\vspace*{-1.0cm} \begin{flushright} Architecture modulaire \ \ \vskip-0.25cm \end{flushright} }
         \vspace*{1.5cm}
