@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 	unsigned int test = 3;
 	while(i <= n)
 	{
-		if(crypto_primality_test(test, k))
+		if(Crypto::rm_probabPrime(test, k))
 		{
 			std::cout << test << std::endl;
 			i++;

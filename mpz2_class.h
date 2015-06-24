@@ -57,10 +57,13 @@ class mpz2_class : public mpz_class
         mpz2_class lcm(mpz2_class b);
         mpz2_class invertmod(mpz2_class mod);
 
-        size_t out_str (FILE *stream, int base = 16);
-        size_t inp_str (FILE *stream, int base = 16);
-        size_t out_raw (FILE *stream);
-        size_t inp_raw (FILE *stream);
+        size_t out_str(FILE *stream, int base = 16);
+        size_t inp_str(FILE *stream, int base = 16);
+        size_t out_raw(FILE *stream);
+        size_t inp_raw(FILE *stream);
+
+        void bufImport(const void *inputBuf, size_t count, size_t size = 1, int endian = 0, int order = 1, size_t nails = 0);
+        size_t bufExport(void *outputBuf, size_t size = 1, int endian = 0, size_t nails = 0, int order = 1);
 
         mpz2_class& setRandom(const mpz2_class a, const mpz2_class b);
 

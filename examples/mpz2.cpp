@@ -436,8 +436,10 @@ int main(int argc, char *argv[])
 	std::cout << "   b.inp_str(strFile, 16);" << std::endl;
 	std::cout << "   // b = " << std::hex << b << std::endl;
 	std::cout << "   FILE rawFile;" << std::endl;
-	std::cout << "   rawFile = fopen(\"test-raw.tmp\", \"w+\");" << std::endl;
+	std::cout << "   rawFile = fopen(\"test-raw.tmp\", \"w\");" << std::endl;
 	std::cout << "   a.out_raw(rawFile);" << std::endl;
+	std::cout << "   fclose(rawFile);" << std::endl;
+	std::cout << "   rawFile = fopen(\"test-raw.tmp\", \"r\");" << std::endl;
 	std::cout << "   c.inp_raw(rawFile);" << std::endl;
 	std::cout << "   // c = " << c << std::endl;
 	std::cout << std::dec;

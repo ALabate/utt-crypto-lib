@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	//Classic way of doing c=a^b
 	std::cout << "Simple Rabin-Miller : " << std::endl;
 	gettimeofday(&t1, NULL);
-	res = crypto_primality_test(a, k);
+	res = Crypto::rm_probabPrime(a, k);
 	gettimeofday(&t2, NULL);
 	std::cout << "  Duration : " << ((double)(t2.tv_usec-t1.tv_usec)/1000000 + (t2.tv_sec-t1.tv_sec)) << " s"  << std::endl; 
 	if(res != 0) {
